@@ -1,23 +1,23 @@
-import { Movie } from "@prisma/client";
-import { AppError } from "../../../../errors/AppError";
-import { prisma } from "../../../../prisma/client";
-import { CreateMovieDTO } from "../../dtos/CreateMovieDTO";
+import { Movie } from '@prisma/client'
+import { AppError } from '../../../../errors/AppError'
+import { prisma } from '../../../../prisma/client'
+import { CreateMovieDTO } from '../../dtos/CreateMovieDTO'
 
 export class CreateMovieUseCase {
-  async execute({
+  async execute ({
     title,
     duration,
-    release_date,
+    release_date
   }: CreateMovieDTO): Promise<Movie> {
     // Verificar se o filme já existe
     const movieAlreadyExists = await prisma.movie.findUnique({
       where: {
-        title,
-      },
-    });
+        title
+      }
+    })
 
     if (movieAlreadyExists) {
-      throw new AppError("Movie already exists!");
+      throw new AppError('Movie already exists!')
     }
 
     // Criar o filme
@@ -25,10 +25,10 @@ export class CreateMovieUseCase {
       data: {
         title,
         duration,
-        release_date,
-      },
-    });
+        release_date
+      }
+    })
 
-    return movie;
+    return movie
   }
 }
